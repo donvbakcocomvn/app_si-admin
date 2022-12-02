@@ -46,13 +46,13 @@ class AppSettingsTableSeeder extends Seeder
             array (
                 'id' => 18,
                 'key' => 'app_name',
-                'value' => 'Smart Delivery',
+                'value' => 'ShoppingCart',
             ),
             4 => 
             array (
                 'id' => 19,
                 'key' => 'app_short_description',
-                'value' => 'Manage Mobile Application',
+                'value' => 'Quản lý ứng dụng điện thoại',
             ),
             5 => 
             array (
@@ -76,7 +76,7 @@ class AppSettingsTableSeeder extends Seeder
             array (
                 'id' => 23,
                 'key' => 'mail_username',
-                'value' => 'productdelivery@smartersvision.com',
+                'value' => 'namdong92@gmail.com',
             ),
             9 => 
             array (
@@ -94,19 +94,19 @@ class AppSettingsTableSeeder extends Seeder
             array (
                 'id' => 26,
                 'key' => 'mail_from_address',
-                'value' => 'productdelivery@smartersvision.com',
+                'value' => 'namdong92@gmail.com',
             ),
             12 => 
             array (
                 'id' => 27,
                 'key' => 'mail_from_name',
-                'value' => 'Smarter Vision',
+                'value' => 'Admin App',
             ),
             13 => 
             array (
                 'id' => 30,
                 'key' => 'timezone',
-                'value' => 'America/Montserrat',
+                'value' => 'Asia/Ho_Chi_Minh',
             ),
             14 => 
             array (
@@ -433,7 +433,18 @@ class AppSettingsTableSeeder extends Seeder
                 'id' => 144,
                 'key' => 'home_section_12',
                 'value' => 'recent_reviews',
-            )
+            ),
+            array (
+                'id' => 145,
+                'key' => 'custom_field_models.1',
+                'value' => 'App\Models\Product',
+            ),
+            array (
+                'id' => 146,
+                'key' => 'custom_field_models.2',
+                'value' => 'App\Models\Category',
+            ),
+
         ));
         
         

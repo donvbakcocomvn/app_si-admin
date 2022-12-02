@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File name: ProductController.php
  * Last modified: 2020.04.30 at 08:21:08
@@ -47,10 +48,13 @@ class ProductController extends Controller
      */
     private $categoryRepository;
 
-    public function __construct(ProductRepository $productRepo, CustomFieldRepository $customFieldRepo, UploadRepository $uploadRepo
-        , MarketRepository $marketRepo
-        , CategoryRepository $categoryRepo)
-    {
+    public function __construct(
+        ProductRepository $productRepo,
+        CustomFieldRepository $customFieldRepo,
+        UploadRepository $uploadRepo,
+        MarketRepository $marketRepo,
+        CategoryRepository $categoryRepo
+    ) {
         parent::__construct();
         $this->productRepository = $productRepo;
         $this->customFieldRepository = $customFieldRepo;
@@ -67,6 +71,8 @@ class ProductController extends Controller
      */
     public function index(ProductDataTable $productDataTable)
     {
+        // var_dump(auth()->user());
+        // var_dump(auth()->user()->roles[0]->name);
         return $productDataTable->render('products.index');
     }
 
@@ -78,18 +84,25 @@ class ProductController extends Controller
     public function create()
     {
 
+
         $category = $this->categoryRepository->pluck('name', 'id');
         if (auth()->user()->hasRole('admin')) {
             $market = $this->marketRepository->pluck('name', 'id');
         } else {
             $market = $this->marketRepository->myActiveMarkets()->pluck('name', 'id');
         }
+        // var_dump(setting('custom_field_models', []));
         $hasCustomField = in_array($this->productRepository->model(), setting('custom_field_models', []));
+        // var_dump($hasCustomField);
+        // var_dump($this->productRepository->model());
         if ($hasCustomField) {
             $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->productRepository->model());
             $html = generateCustomField($customFields);
         }
-        return view('products.create')->with("customFields", isset($html) ? $html : false)->with("market", $market)->with("category", $category);
+        return view('products.create')
+            ->with("customFields", isset($html) ? $html : false)
+            ->with("market", $market)
+            ->with("category", $category);
     }
 
     /**
@@ -107,7 +120,7 @@ class ProductController extends Controller
             $product = $this->productRepository->create($input);
             $product->customFieldsValues()->createMany(getCustomFieldsValues($customFields, $request));
             if (isset($input['image']) && $input['image'] && is_array($input['image'])) {
-                foreach ($input['image'] as $fileUuid){
+                foreach ($input['image'] as $fileUuid) {
                     $cacheUpload = $this->uploadRepository->getByUuid($fileUuid);
                     $mediaItem = $cacheUpload->getMedia('image')->first();
                     $mediaItem->copy($product, 'image');
@@ -200,7 +213,7 @@ class ProductController extends Controller
             $product = $this->productRepository->update($input, $id);
 
             if (isset($input['image']) && $input['image'] && is_array($input['image'])) {
-                foreach ($input['image'] as $fileUuid){
+                foreach ($input['image'] as $fileUuid) {
                     $cacheUpload = $this->uploadRepository->getByUuid($fileUuid);
                     $mediaItem = $cacheUpload->getMedia('image')->first();
                     $mediaItem->copy($product, 'image');
@@ -241,7 +254,6 @@ class ProductController extends Controller
             $this->productRepository->delete($id);
 
             Flash::success(__('lang.deleted_successfully', ['operator' => __('lang.product')]));
-
         } else {
             Flash::warning('This is only demo app you can\'t change this section ');
         }
@@ -258,7 +270,7 @@ class ProductController extends Controller
         $product = $this->productRepository->findWithoutFail($input['id']);
         try {
             if ($product->hasMedia($input['collection'])) {
-                $product->getFirstMedia($input['collection'],['uuid'=>$input['uuid']])->delete();
+                $product->getFirstMedia($input['collection'], ['uuid' => $input['uuid']])->delete();
             }
         } catch (\Exception $e) {
             Log::error($e->getMessage());

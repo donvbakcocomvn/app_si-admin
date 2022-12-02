@@ -1002,6 +1002,8 @@ return [
     'admin_area' => 'Admin Configurations',
     'market_fields' => 'Fields & Domains',
     'market_fields_help' => 'Select the fields and domain for this market',
+    'market_type' => 'Type',
+    'market_type_help' => 'Choose the type for the market',
     'option_group_desc' => 'Description',
     'option_group_create' => 'Create Option Group',
     'option_group_table' => 'List of Group Options',
@@ -1398,5 +1400,8 @@ return [
     'role_client'=> 'client',
     'role_driver'=> 'driver',
     'role_admin'=> 'admin',
+    'user_isVIP'=> 'Is VIP', 
+    'user_isVIP_help'=> 'Insert ', 
+    'user_isVIP_placeholder'=> 'Insert ', 
 
 ];

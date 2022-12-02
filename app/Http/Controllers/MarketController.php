@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File name: MarketController.php
  * Last modified: 2020.04.30 at 08:21:08
@@ -97,6 +98,8 @@ class MarketController extends Controller
         $user = $this->userRepository->getByCriteria(new ManagersCriteria())->pluck('name', 'id');
         $drivers = $this->userRepository->getByCriteria(new DriversCriteria())->pluck('name', 'id');
         $field = $this->fieldRepository->pluck('name', 'id');
+        $fieldType = ["farm" => "farm", "market" => "market"];
+        $fieldsTypeSelected = "";
         $usersSelected = [];
         $driversSelected = [];
         $fieldsSelected = [];
@@ -105,7 +108,16 @@ class MarketController extends Controller
             $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->marketRepository->model());
             $html = generateCustomField($customFields);
         }
-        return view('markets.create')->with("customFields", isset($html) ? $html : false)->with("user", $user)->with("drivers", $drivers)->with("usersSelected", $usersSelected)->with("driversSelected", $driversSelected)->with('field', $field)->with('fieldsSelected', $fieldsSelected);
+        return view('markets.create')
+            ->with("customFields", isset($html) ? $html : false)
+            ->with("user", $user)
+            ->with("drivers", $drivers)
+            ->with("usersSelected", $usersSelected)
+            ->with("driversSelected", $driversSelected)
+            ->with('field', $field)
+            ->with('fieldsSelected', $fieldsSelected)
+            ->with('fieldType', $fieldType)
+            ->with('fieldsTypeSelected', $fieldsTypeSelected);
     }
 
     /**
@@ -118,7 +130,7 @@ class MarketController extends Controller
     public function store(CreateMarketRequest $request)
     {
         $input = $request->all();
-        if (auth()->user()->hasRole(['manager','client'])) {
+        if (auth()->user()->hasRole(['manager', 'client'])) {
             $input['users'] = [auth()->id()];
         }
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->marketRepository->model());
@@ -179,7 +191,7 @@ class MarketController extends Controller
             Flash::error(__('lang.not_found', ['operator' => __('lang.market')]));
             return redirect(route('markets.index'));
         }
-        if($market['active'] == 0){
+        if ($market['active'] == 0) {
             $user = $this->userRepository->getByCriteria(new ManagersClientsCriteria())->pluck('name', 'id');
         } else {
             $user = $this->userRepository->getByCriteria(new ManagersCriteria())->pluck('name', 'id');
@@ -199,8 +211,19 @@ class MarketController extends Controller
         if ($hasCustomField) {
             $html = generateCustomField($customFields, $customFieldsValues);
         }
-
-        return view('markets.edit')->with('market', $market)->with("customFields", isset($html) ? $html : false)->with("user", $user)->with("drivers", $drivers)->with("usersSelected", $usersSelected)->with("driversSelected", $driversSelected)->with('field', $field)->with('fieldsSelected', $fieldsSelected);
+        $fieldType = ["farm" => "farm", "market" => "market"];
+        $fieldsTypeSelected = $market->type;
+        return view('markets.edit')
+            ->with('market', $market)
+            ->with("customFields", isset($html) ? $html : false)
+            ->with("user", $user)
+            ->with("drivers", $drivers)
+            ->with("usersSelected", $usersSelected)
+            ->with("driversSelected", $driversSelected)
+            ->with('field', $field)
+            ->with('fieldsSelected', $fieldsSelected)
+            ->with('fieldType', $fieldType)
+            ->with('fieldsTypeSelected', $fieldsTypeSelected);
     }
 
     /**

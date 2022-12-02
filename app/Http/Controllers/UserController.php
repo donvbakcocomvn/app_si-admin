@@ -47,6 +47,7 @@ class UserController extends Controller
         UploadRepository $uploadRepo,
         CustomFieldRepository $customFieldRepo
     ) {
+
         parent::__construct();
         $this->userRepository = $userRepo;
         $this->roleRepository = $roleRepo;
@@ -61,7 +62,7 @@ class UserController extends Controller
      * @return Response
      */
     public function index(UserDataTable $userDataTable)
-    { 
+    {
         return $userDataTable->render('settings.users.index');
     }
 
@@ -73,14 +74,14 @@ class UserController extends Controller
      */
     public function profile()
     {
-        $user = $this->userRepository->findWithoutFail(auth()->id());
 
+        $user = $this->userRepository->findWithoutFail(auth()->id());
         unset($user->password);
         $customFields = false;
         $role = $this->roleRepository->pluck('name', 'name');
         $rolesSelected = $user->getRoleNames()->toArray();
         $customFieldsValues = $user->customFieldsValues()->with('customField')->get();
-        //dd($customFieldsValues);
+        // dd($customFieldsValues);
         $hasCustomField = in_array($this->userRepository->model(), setting('custom_field_models', []));
         if ($hasCustomField) {
             $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->userRepository->model());
@@ -99,7 +100,13 @@ class UserController extends Controller
         $role = $this->roleRepository->pluck('name', 'name');
 
         $rolesSelected = [];
-        $hasCustomField = in_array($this->userRepository->model(), setting('custom_field_models', []));
+        
+
+        $hasCustomField =
+            in_array(
+                $this->userRepository->model(),
+                setting('custom_field_models', [])
+            );
         if ($hasCustomField) {
             $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->userRepository->model());
             $html = generateCustomField($customFields);

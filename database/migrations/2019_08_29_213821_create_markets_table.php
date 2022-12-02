@@ -23,6 +23,7 @@ class CreateMarketsTable extends Migration
         Schema::create('markets', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 127);
+            $table->string('type', 50)->default('market');;
             $table->text('description')->nullable()->default('');
             $table->string('address', 255)->nullable();
             $table->string('latitude', 24);

@@ -16,7 +16,7 @@ class CreateUserMarketsTable extends Migration
         Schema::create('user_markets', function (Blueprint $table) {
             $table->integer('user_id')->unsigned();
             $table->integer('market_id')->unsigned();
-            $table->primary([ 'user_id','market_id']);
+            $table->primary(['user_id', 'market_id']);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('market_id')->references('id')->on('markets')->onDelete('cascade')->onUpdate('cascade');
         });

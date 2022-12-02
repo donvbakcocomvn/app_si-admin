@@ -61,6 +61,7 @@ class Market extends Model implements HasMedia
 
     public $fillable = [
         'name',
+        'type',
         'description',
         'address',
         'latitude',
@@ -73,7 +74,7 @@ class Market extends Model implements HasMedia
         'delivery_range',
         'available_for_delivery',
         'closed',
-        'information',
+        'information', 
         'active',
     ];
 
@@ -84,6 +85,7 @@ class Market extends Model implements HasMedia
      */
     protected $casts = [
         'name' => 'string',
+        'type' => 'string',
         'description' => 'string',
         'image' => 'string',
         'address' => 'string',
@@ -97,7 +99,7 @@ class Market extends Model implements HasMedia
         'delivery_range'=>'double',
         'available_for_delivery'=>'boolean',
         'closed'=>'boolean',
-        'information' => 'string',
+        'information' => 'string', 
         'active' =>'boolean'
     ];
 

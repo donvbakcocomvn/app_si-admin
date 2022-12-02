@@ -39,7 +39,7 @@ class PermissionsTableSeeder extends Seeder
             $role = Role::findByName('admin');
             if (!$role) {
                 $role = Role::create(['name' => 'admin']);
-            }
+            } 
         }catch (Exception $e){
             if($e instanceof RoleDoesNotExist){
                 $role = Role::create(['name' => 'admin']);

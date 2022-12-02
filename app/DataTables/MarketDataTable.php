@@ -129,6 +129,10 @@ class MarketDataTable extends DataTable
 
             ],
             [
+                'data' => 'type',
+                'title' => trans('lang.market_type'), 
+            ],
+            [
                 'data' => 'address',
                 'title' => trans('lang.market_address'),
 

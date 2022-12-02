@@ -9,8 +9,8 @@ use App\Http\Requests\UpdateProductOrderRequest;
 use App\Repositories\ProductOrderRepository;
 use App\Repositories\CustomFieldRepository;
 use App\Repositories\ProductRepository;
-                use App\Repositories\OptionRepository;
-                use App\Repositories\OrderRepository;
+use App\Repositories\OptionRepository;
+use App\Repositories\OrderRepository;
 use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -28,26 +28,31 @@ class ProductOrderController extends Controller
     private $customFieldRepository;
 
     /**
-  * @var ProductRepository
-  */
-private $productRepository;/**
-  * @var OptionRepository
-  */
-private $optionRepository;/**
-  * @var OrderRepository
-  */
-private $orderRepository;
+     * @var ProductRepository
+     */
+    private $productRepository;
+    /**
+     * @var OptionRepository
+     */
+    private $optionRepository;
+    /**
+     * @var OrderRepository
+     */
+    private $orderRepository;
 
-    public function __construct(ProductOrderRepository $productOrderRepo, CustomFieldRepository $customFieldRepo , ProductRepository $productRepo
-                , OptionRepository $optionRepo
-                , OrderRepository $orderRepo)
-    {
+    public function __construct(
+        ProductOrderRepository $productOrderRepo,
+        CustomFieldRepository $customFieldRepo,
+        ProductRepository $productRepo,
+        OptionRepository $optionRepo,
+        OrderRepository $orderRepo
+    ) {
         parent::__construct();
         $this->productOrderRepository = $productOrderRepo;
         $this->customFieldRepository = $customFieldRepo;
         $this->productRepository = $productRepo;
-                $this->optionRepository = $optionRepo;
-                $this->orderRepository = $orderRepo;
+        $this->optionRepository = $optionRepo;
+        $this->orderRepository = $orderRepo;
     }
 
     /**
@@ -68,16 +73,16 @@ private $orderRepository;
      */
     public function create()
     {
-        $product = $this->productRepository->pluck('name','id');
-                $option = $this->optionRepository->pluck('name','id');
-                $order = $this->orderRepository->pluck('id','id');
+        $product = $this->productRepository->pluck('name', 'id');
+        $option = $this->optionRepository->pluck('name', 'id');
+        $order = $this->orderRepository->pluck('id', 'id');
         $optionsSelected = [];
-        $hasCustomField = in_array($this->productOrderRepository->model(),setting('custom_field_models',[]));
-            if($hasCustomField){
-                $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->productOrderRepository->model());
-                $html = generateCustomField($customFields);
-            }
-        return view('product_orders.create')->with("customFields", isset($html) ? $html : false)->with("product",$product)->with("option",$option)->with("optionsSelected",$optionsSelected)->with("order",$order);
+        $hasCustomField = in_array($this->productOrderRepository->model(), setting('custom_field_models', []));
+        if ($hasCustomField) {
+            $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->productOrderRepository->model());
+            $html = generateCustomField($customFields);
+        }
+        return view('product_orders.create')->with("customFields", isset($html) ? $html : false)->with("product", $product)->with("option", $option)->with("optionsSelected", $optionsSelected)->with("order", $order);
     }
 
     /**
@@ -93,13 +98,12 @@ private $orderRepository;
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->productOrderRepository->model());
         try {
             $productOrder = $this->productOrderRepository->create($input);
-            $productOrder->customFieldsValues()->createMany(getCustomFieldsValues($customFields,$request));
-            
+            $productOrder->customFieldsValues()->createMany(getCustomFieldsValues($customFields, $request));
         } catch (ValidatorException $e) {
             Flash::error($e->getMessage());
         }
 
-        Flash::success(__('lang.saved_successfully',['operator' => __('lang.product_order')]));
+        Flash::success(__('lang.saved_successfully', ['operator' => __('lang.product_order')]));
 
         return redirect(route('productOrders.index'));
     }
@@ -134,24 +138,24 @@ private $orderRepository;
     public function edit($id)
     {
         $productOrder = $this->productOrderRepository->findWithoutFail($id);
-        $product = $this->productRepository->pluck('name','id');
-                $option = $this->optionRepository->pluck('name','id');
-                $order = $this->orderRepository->pluck('id','id');
+        $product = $this->productRepository->pluck('name', 'id');
+        $option = $this->optionRepository->pluck('name', 'id');
+        $order = $this->orderRepository->pluck('id', 'id');
         $optionsSelected = $productOrder->options()->pluck('options.id')->toArray();
 
         if (empty($productOrder)) {
-            Flash::error(__('lang.not_found',['operator' => __('lang.product_order')]));
+            Flash::error(__('lang.not_found', ['operator' => __('lang.product_order')]));
 
             return redirect(route('productOrders.index'));
         }
         $customFieldsValues = $productOrder->customFieldsValues()->with('customField')->get();
         $customFields =  $this->customFieldRepository->findByField('custom_field_model', $this->productOrderRepository->model());
-        $hasCustomField = in_array($this->productOrderRepository->model(),setting('custom_field_models',[]));
-        if($hasCustomField) {
+        $hasCustomField = in_array($this->productOrderRepository->model(), setting('custom_field_models', []));
+        if ($hasCustomField) {
             $html = generateCustomField($customFields, $customFieldsValues);
         }
 
-        return view('product_orders.edit')->with('productOrder', $productOrder)->with("customFields", isset($html) ? $html : false)->with("product",$product)->with("option",$option)->with("optionsSelected",$optionsSelected)->with("order",$order);
+        return view('product_orders.edit')->with('productOrder', $productOrder)->with("customFields", isset($html) ? $html : false)->with("product", $product)->with("option", $option)->with("optionsSelected", $optionsSelected)->with("order", $order);
     }
 
     /**
@@ -175,16 +179,16 @@ private $orderRepository;
         try {
             $productOrder = $this->productOrderRepository->update($input, $id);
             $input['options'] = isset($input['options']) ? $input['options'] : [];
-            
-            foreach (getCustomFieldsValues($customFields, $request) as $value){
+
+            foreach (getCustomFieldsValues($customFields, $request) as $value) {
                 $productOrder->customFieldsValues()
-                    ->updateOrCreate(['custom_field_id'=>$value['custom_field_id']],$value);
+                    ->updateOrCreate(['custom_field_id' => $value['custom_field_id']], $value);
             }
         } catch (ValidatorException $e) {
             Flash::error($e->getMessage());
         }
 
-        Flash::success(__('lang.updated_successfully',['operator' => __('lang.product_order')]));
+        Flash::success(__('lang.updated_successfully', ['operator' => __('lang.product_order')]));
 
         return redirect(route('productOrders.index'));
     }
@@ -208,12 +212,12 @@ private $orderRepository;
 
         $this->productOrderRepository->delete($id);
 
-        Flash::success(__('lang.deleted_successfully',['operator' => __('lang.product_order')]));
+        Flash::success(__('lang.deleted_successfully', ['operator' => __('lang.product_order')]));
 
         return redirect(route('productOrders.index'));
     }
 
-        /**
+    /**
      * Remove Media of ProductOrder
      * @param Request $request
      */
@@ -222,7 +226,7 @@ private $orderRepository;
         $input = $request->all();
         $productOrder = $this->productOrderRepository->findWithoutFail($input['id']);
         try {
-            if($productOrder->hasMedia($input['collection'])){
+            if ($productOrder->hasMedia($input['collection'])) {
                 $productOrder->getFirstMedia($input['collection'])->delete();
             }
         } catch (\Exception $e) {

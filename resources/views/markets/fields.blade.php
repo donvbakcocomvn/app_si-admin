@@ -21,6 +21,16 @@
             <div class="form-text text-muted">{{ trans("lang.market_fields_help") }}</div>
         </div>
     </div>
+    @hasanyrole('admin|manager')
+    <!-- fields Field -->
+    <div class="form-group row ">
+        {!! Form::label('type', trans("lang.market_type"),['class' => 'col-3 control-label text-right']) !!}
+        <div class="col-9">
+            {!! Form::select('type', $fieldType, $fieldsTypeSelected, ['class' => 'select2 form-control']) !!}
+            <div class="form-text text-muted">{{ trans("lang.market_type_help") }}</div>
+        </div>
+    </div>
+    @endhasanyrole
 
     @hasanyrole('admin|manager')
     <!-- Users Field -->
