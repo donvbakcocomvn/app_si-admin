@@ -34,7 +34,7 @@ class AppSettingsTableSeeder extends Seeder
             array (
                 'id' => 8,
                 'key' => 'language',
-                'value' => 'en',
+                'value' => 'vn',
             ),
             2 => 
             array (
@@ -352,17 +352,17 @@ class AppSettingsTableSeeder extends Seeder
             array(
                 'id' => 128,
                 'key' => 'default_currency_id',
-                'value' => '1',
+                'value' => '7',
             ),
             array(
                 'id' => 129,
                 'key' => 'default_currency_code',
-                'value' => 'USD',
+                'value' => 'VND',
             ),
             array(
                 'id' => 130,
                 'key' => 'default_currency_decimal_digits',
-                'value' => '2',
+                'value' => '0',
             ),
             array(
                 'id' => 131,
@@ -443,6 +443,16 @@ class AppSettingsTableSeeder extends Seeder
                 'id' => 146,
                 'key' => 'custom_field_models.2',
                 'value' => 'App\Models\Category',
+            ),
+            array (
+                'id' => 147,
+                'key' => 'custom_field_models.3',
+                'value' => 'App\Models\Field',
+            ),
+            array (
+                'id' => 148,
+                'key' => 'custom_field_models.4',
+                'value' => 'App\Models\Market',
             ),
 
         ));

@@ -5,7 +5,7 @@
 <!-- Name Field -->
 <div class="form-group row ">
   {!! Form::label('name', trans("lang.field_name"), ['class' => 'col-3 control-label text-right']) !!}
-  <div class="col-9">
+  <div class="col-9"> 
     {!! Form::text('name', null,  ['class' => 'form-control','placeholder'=>  trans("lang.field_name_placeholder")]) !!}
     <div class="form-text text-muted">
       {{ trans("lang.field_name_help") }}

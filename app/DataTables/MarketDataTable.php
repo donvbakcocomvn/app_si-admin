@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File name: MarketDataTable.php
  * Last modified: 2020.04.30 at 08:21:09
@@ -65,16 +66,24 @@ class MarketDataTable extends DataTable
     {
         if (auth()->user()->hasRole('admin')) {
             return $model->newQuery();
-        } else if (auth()->user()->hasRole('manager')){
+        } else if (auth()->user()->hasRole('manager')) {
             return $model->newQuery()
                 ->join("user_markets", "market_id", "=", "markets.id")
                 ->where('user_markets.user_id', auth()->id())
                 ->groupBy("markets.id")
                 ->select("markets.*");
-        }else if(auth()->user()->hasRole('driver')){
+        } else if (auth()->user()->hasRole('driver')) {
             return $model->newQuery()
                 ->join("driver_markets", "market_id", "=", "markets.id")
                 ->where('driver_markets.user_id', auth()->id())
+                ->groupBy("markets.id")
+                ->select("markets.*");
+        } else if (auth()->user()->hasRole('farm')) {
+            return $model->newQuery()
+                ->join("products", "products.market_id", "=", "markets.id")
+                ->join("product_orders", "products.id", "=", "product_orders.product_id")
+                ->join("orders", "orders.id", "=", "product_orders.order_id")
+                ->where('orders.user_id', auth()->id())
                 ->groupBy("markets.id")
                 ->select("markets.*");
         } else if (auth()->user()->hasRole('client')) {
@@ -100,12 +109,16 @@ class MarketDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['title'=>trans('lang.actions'),'width' => '80px', 'printable' => false, 'responsivePriority' => '100'])
+            ->addAction(['title' => trans('lang.actions'), 'width' => '80px', 'printable' => false, 'responsivePriority' => '100'])
             ->parameters(array_merge(
-                config('datatables-buttons.parameters'), [
+                config('datatables-buttons.parameters'),
+                [
                     'language' => json_decode(
-                        file_get_contents(base_path('resources/lang/' . app()->getLocale() . '/datatable.json')
-                        ), true)
+                        file_get_contents(
+                            base_path('resources/lang/' . app()->getLocale() . '/datatable.json')
+                        ),
+                        true
+                    )
                 ]
             ));
     }
@@ -129,8 +142,8 @@ class MarketDataTable extends DataTable
 
             ],
             [
-                'data' => 'type',
-                'title' => trans('lang.market_type'), 
+                'data' => 'type_market',
+                'title' => trans('lang.market_type'),
             ],
             [
                 'data' => 'address',

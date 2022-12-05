@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File name: AppSettingController.php
  * Last modified: 2020.05.27 at 18:36:54
@@ -71,12 +72,12 @@ class AppSettingController extends Controller
                         $input['default_currency_rounding'] = $currency->rounding;
                     }
                 }
-//                if(isset($input['enable_stripe']) && $input['enable_stripe'] == 1){
-//                    $input['enable_razorpay'] = 0;
-//                }
-//                if(isset($input['enable_razorpay']) && $input['enable_razorpay'] == 1){
-//                    $input['enable_stripe'] = 0;
-//                }
+                //                if(isset($input['enable_stripe']) && $input['enable_stripe'] == 1){
+                //                    $input['enable_razorpay'] = 0;
+                //                }
+                //                if(isset($input['enable_razorpay']) && $input['enable_razorpay'] == 1){
+                //                    $input['enable_stripe'] = 0;
+                //                }
             }
             if (empty($input['mail_password'])) {
                 unset($input['mail_password']);
@@ -123,7 +124,6 @@ class AppSettingController extends Controller
         }
         Flash::warning(__('lang.app_setting_already_updated'));
         return redirect()->back();
-
     }
 
     public function clearCache(Request $request)
@@ -145,7 +145,7 @@ class AppSettingController extends Controller
     {
         //translate only lang.php file
 
-        if (!env('APP_DEMO', false)) {
+        if (!env('APP_DEMO', true)) {
             $inputs = $request->except(['_method', '_token', '_current_lang']);
             $currentLang = $request->input('_current_lang');
             if (!$inputs && !count($inputs)) {
@@ -201,7 +201,6 @@ class AppSettingController extends Controller
             }
             $langFiles = $this->langManager->files();
             return view('settings.' . $type . '.index', compact(['languages', 'type', 'tab', 'langFiles']));
-
         }
 
         foreach (timezone_abbreviations_list() as $abbr => $timezone) {
@@ -218,13 +217,14 @@ class AppSettingController extends Controller
 
         $customFieldModels = getModelsClasses(app_path('Models'));
 
-        return view('settings.' . $type . '.' . $tab . '', compact(['languages', 'type', 'tab', 'langFiles', 'timezones', 'upload', 'customFieldModels', 'currencies', 'mobileLanguages', 'containsUpdate']));
+        return view(
+            'settings.' . $type . '.' . $tab . '',
+            compact(['languages', 'type', 'tab', 'langFiles', 'timezones', 'upload', 'customFieldModels', 'currencies', 'mobileLanguages', 'containsUpdate'])
+        );
     }
 
     public function initFirebase()
     {
         return response()->view('vendor.notifications.sw_firebase')->header('Content-Type', 'application/javascript');
     }
-
-
 }

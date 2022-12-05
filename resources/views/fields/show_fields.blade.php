@@ -28,8 +28,7 @@
   <div class="col-9">
     <p>{!! $field->image !!}</p>
   </div>
-</div>
-
+</div> 
 <!-- Markets Field -->
 <div class="form-group row col-6">
   {!! Form::label('markets', 'Markets:', ['class' => 'col-3 control-label text-right']) !!}

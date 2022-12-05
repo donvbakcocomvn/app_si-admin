@@ -6,7 +6,7 @@
  * @package  Laravel
  * @author   Taylor Otwell <taylor@laravel.com>
  */
-
+ob_start();
 define('LARAVEL_START', microtime(true));
 
 /*
@@ -23,7 +23,7 @@ define('LARAVEL_START', microtime(true));
 header("Access-Control-Allow-Origin: *");
 // header("Access-Control-Allow-Methods : GET,POST,PUT,DELETE,OPTIONS");
 // header("Access-Control-Allow-Headers : Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +60,5 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
+
+

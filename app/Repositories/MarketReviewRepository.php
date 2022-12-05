@@ -13,7 +13,7 @@ use InfyOm\Generator\Common\BaseRepository;
  * @method MarketReview findWithoutFail($id, $columns = ['*'])
  * @method MarketReview find($id, $columns = ['*'])
  * @method MarketReview first($columns = ['*'])
-*/
+ */
 class MarketReviewRepository extends BaseRepository
 {
     /**
@@ -25,6 +25,7 @@ class MarketReviewRepository extends BaseRepository
         'user_id',
         'market_id'
     ];
+ 
 
     /**
      * Configure the Model

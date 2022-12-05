@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Lang\lang_database;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -12,7 +13,8 @@ use Illuminate\Support\Facades\Response;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    public function __construct(){
+    public function __construct()
+    {
         // config(['app.timezone' => setting('timezone')]);
     }
 
@@ -22,8 +24,8 @@ class Controller extends BaseController
      * @return mixed
      */
     public function sendResponse($result, $message)
-    {
-        return Response::json(ResponseUtil::makeResponse($message, $result));
+    { 
+        return Response::json(ResponseUtil::makeResponse($message, $result)); 
     }
 
     /**

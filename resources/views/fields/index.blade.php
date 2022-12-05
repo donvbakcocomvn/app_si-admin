@@ -1,3 +1,6 @@
+<?php 
+ob_start();
+?>
 @extends('layouts.app')
 
 @section('content')
@@ -42,7 +45,7 @@
       @include('fields.table')
       <div class="clearfix"></div>
     </div>
-  </div>
+  </div> 
 </div>
 @endsection
 

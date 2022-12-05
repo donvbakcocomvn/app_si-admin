@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\FieldDataTable;
+use App\Lang\lang_database;
 use App\Http\Requests;
 use App\Http\Requests\CreateFieldRequest;
 use App\Http\Requests\UpdateFieldRequest;
@@ -41,13 +42,13 @@ class FieldController extends Controller
         UploadRepository $uploadRepo,
         MarketRepository $marketRepo
     ) {
-        parent::__construct();
+        parent::__construct(); 
         $this->fieldRepository = $fieldRepo;
         $this->customFieldRepository = $customFieldRepo;
         $this->uploadRepository = $uploadRepo;
         $this->marketRepository = $marketRepo;
     }
-
+  
     /**
      * Display a listing of the Field.
      *
@@ -55,7 +56,7 @@ class FieldController extends Controller
      * @return Response
      */
     public function index(FieldDataTable $fieldDataTable)
-    {
+    { 
         return $fieldDataTable->render('fields.index');
     }
 

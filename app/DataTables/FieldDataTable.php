@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File name: FieldDataTable.php
  * Last modified: 2020.05.04 at 09:04:18
@@ -45,7 +46,6 @@ class FieldDataTable extends DataTable
             })
             ->addColumn('action', 'fields.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));
-
         return $dataTable;
     }
 
@@ -61,11 +61,11 @@ class FieldDataTable extends DataTable
                 'data' => 'name',
                 'title' => trans('lang.field_name'),
 
-            ],
+            ], 
             [
-                'data' => 'image',
-                'title' => trans('lang.field_image'),
-                'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                'data' => 'group_name',
+                'title' => trans('lang.field_group_name'),
+
             ],
             (auth()->check() && auth()->user()->hasAnyRole(['admin', 'manager'])) ? [
                 'data' => 'markets',
@@ -73,11 +73,11 @@ class FieldDataTable extends DataTable
                 'searchable' => false,
 
             ] : null,
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.field_updated_at'),
-                'searchable' => false,
-            ]
+            // [
+            //     'data' => 'updated_at',
+            //     'title' => trans('lang.field_updated_at'),
+            //     'searchable' => false,
+            // ]
         ];
         $columns = array_filter($columns);
 
@@ -117,12 +117,16 @@ class FieldDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['title'=>trans('lang.actions'),'width' => '80px', 'printable' => false, 'responsivePriority' => '100'])
+            ->addAction(['title' => trans('lang.actions'), 'width' => '80px', 'printable' => false, 'responsivePriority' => '100'])
             ->parameters(array_merge(
-                config('datatables-buttons.parameters'), [
+                config('datatables-buttons.parameters'),
+                [
                     'language' => json_decode(
-                        file_get_contents(base_path('resources/lang/' . app()->getLocale() . '/datatable.json')
-                        ), true)
+                        file_get_contents(
+                            base_path('resources/lang/' . app()->getLocale() . '/datatable.json')
+                        ),
+                        true
+                    )
                 ]
             ));
     }

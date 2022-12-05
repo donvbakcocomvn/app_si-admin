@@ -28,7 +28,7 @@ class Field extends Model implements HasMedia
 
 
     public $fillable = [
-        'name',
+        'name', 
         'description'
     ];
 
@@ -39,6 +39,7 @@ class Field extends Model implements HasMedia
      */
     protected $casts = [
         'name' => 'string',
+        'group_name' => 'string',
         'description' => 'string',
         'image' => 'string'
     ];

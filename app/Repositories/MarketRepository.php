@@ -25,6 +25,7 @@ class MarketRepository extends BaseRepository implements CacheableInterface
      */
     protected $fieldSearchable = [
         'name',
+        'type',
         'description',
         'address',
         'latitude',
@@ -57,12 +58,16 @@ class MarketRepository extends BaseRepository implements CacheableInterface
         return Market::join("user_markets", "market_id", "=", "markets.id")
             ->where('user_markets.user_id', auth()->id())->get();
     }
+    public function myMarketsByType($type)
+    {
+        return Market::join("user_markets", "market_id", "=", "markets.id")
+            ->where('user_markets.type_market', $type)->get();
+    }
 
     public function myActiveMarkets()
     {
         return Market::join("user_markets", "market_id", "=", "markets.id")
             ->where('user_markets.user_id', auth()->id())
-            ->where('markets.active','=','1')->get();
+            ->where('markets.active', '=', '1')->get();
     }
-
 }

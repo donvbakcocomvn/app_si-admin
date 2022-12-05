@@ -61,7 +61,7 @@ class Market extends Model implements HasMedia
 
     public $fillable = [
         'name',
-        'type',
+        'type_market',
         'description',
         'address',
         'latitude',
@@ -85,7 +85,7 @@ class Market extends Model implements HasMedia
      */
     protected $casts = [
         'name' => 'string',
-        'type' => 'string',
+        'type_market' => 'string',
         'description' => 'string',
         'image' => 'string',
         'address' => 'string',

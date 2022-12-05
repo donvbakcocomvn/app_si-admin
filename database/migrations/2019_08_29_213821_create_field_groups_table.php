@@ -11,7 +11,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateFieldsTable extends Migration
+class CreateFieldGroupsTable extends Migration
 {
 
     /**
@@ -21,10 +21,9 @@ class CreateFieldsTable extends Migration
      */
     public function up()
     {
-        Schema::create('fields', function (Blueprint $table) {
+        Schema::create('field_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 127);
-            $table->string('group_name', 127)->default("farm");
             $table->text('description')->nullable();
             $table->timestamps();
         });
@@ -37,6 +36,6 @@ class CreateFieldsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('fields');
+        Schema::drop('field_groups');
     }
 }

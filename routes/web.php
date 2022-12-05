@@ -18,6 +18,7 @@
 |
 */
 
+
 Route::get('login/{service}', 'Auth\LoginController@redirectToProvider');
 Route::get('login/{service}/callback', 'Auth\LoginController@handleProviderCallback');
 Auth::routes();
@@ -32,8 +33,7 @@ Route::get('payments/paypal/express-checkout-success', 'PayPalController@getExpr
 Route::get('payments/paypal', 'PayPalController@index')->name('paypal.index');
 
 Route::get('firebase/sw-js','AppSettingController@initFirebase');
-
-
+ 
 Route::get('storage/app/public/{id}/{conversion}/{filename?}', 'UploadController@storage');
 Route::middleware('auth')->group(function () {
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

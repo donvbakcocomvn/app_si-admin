@@ -7,6 +7,7 @@ use App\Models\Field;
 use App\Repositories\FieldRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Lang\lang_database;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Illuminate\Support\Facades\Response;
@@ -25,6 +26,7 @@ class FieldAPIController extends Controller
 
     public function __construct(FieldRepository $fieldRepo)
     {
+        
         $this->fieldRepository = $fieldRepo;
     }
 
@@ -37,15 +39,14 @@ class FieldAPIController extends Controller
      */
     public function index(Request $request)
     {
-        try{
+        try {
             $this->fieldRepository->pushCriteria(new RequestCriteria($request));
             $this->fieldRepository->pushCriteria(new LimitOffsetCriteria($request));
         } catch (RepositoryException $e) {
             return $this->sendError($e->getMessage());
         }
-        $fields = $this->fieldRepository->all();
-
-        return $this->sendResponse($fields->toArray(), 'Fields retrieved successfully');
+        $fields = $this->fieldRepository->all(); 
+        return $this->sendResponse($fields->toArray(), 'Fields aaa retrieved successfully');
     }
 
     /**
@@ -66,7 +67,6 @@ class FieldAPIController extends Controller
         if (empty($field)) {
             return $this->sendError('Field not found');
         }
-
         return $this->sendResponse($field->toArray(), 'Field retrieved successfully');
     }
 }

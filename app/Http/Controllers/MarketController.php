@@ -84,6 +84,7 @@ class MarketController extends Controller
      */
     public function requestedMarkets(RequestedMarketDataTable $requestedMarketDataTable)
     {
+
         return $requestedMarketDataTable->render('markets.requested');
     }
 
@@ -98,7 +99,7 @@ class MarketController extends Controller
         $user = $this->userRepository->getByCriteria(new ManagersCriteria())->pluck('name', 'id');
         $drivers = $this->userRepository->getByCriteria(new DriversCriteria())->pluck('name', 'id');
         $field = $this->fieldRepository->pluck('name', 'id');
-        $fieldType = ["farm" => "farm", "market" => "market"];
+        $fieldType = ["farm" => trans("lang.type_market_farm"), "market" => trans("lang.type_market_market")];
         $fieldsTypeSelected = "";
         $usersSelected = [];
         $driversSelected = [];
@@ -200,6 +201,9 @@ class MarketController extends Controller
         $drivers = $this->userRepository->getByCriteria(new DriversCriteria())->pluck('name', 'id');
         $field = $this->fieldRepository->pluck('name', 'id');
 
+        // $field = array_map(function ($value) {
+        //     return trans('lang.' . $value);
+        // },  $field);
 
         $usersSelected = $market->users()->pluck('users.id')->toArray();
         $driversSelected = $market->drivers()->pluck('users.id')->toArray();
@@ -211,7 +215,7 @@ class MarketController extends Controller
         if ($hasCustomField) {
             $html = generateCustomField($customFields, $customFieldsValues);
         }
-        $fieldType = ["farm" => "farm", "market" => "market"];
+        $fieldType = ["farm" => trans("lang.type_market_farm"), "market" => trans("lang.type_market_market")];
         $fieldsTypeSelected = $market->type;
         return view('markets.edit')
             ->with('market', $market)

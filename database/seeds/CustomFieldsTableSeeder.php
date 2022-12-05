@@ -12,13 +12,13 @@ class CustomFieldsTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('custom_fields')->delete();
-        
-        \DB::table('custom_fields')->insert(array (
-            0 => 
-            array (
+
+        \DB::table('custom_fields')->insert(array(
+            0 =>
+            array(
                 'id' => 4,
                 'name' => 'phone',
                 'type' => 'text',
@@ -32,8 +32,8 @@ class CustomFieldsTableSeeder extends Seeder
                 'created_at' => '2019-09-06 21:30:00',
                 'updated_at' => '2019-09-06 21:31:47',
             ),
-            1 => 
-            array (
+            1 =>
+            array(
                 'id' => 5,
                 'name' => 'bio',
                 'type' => 'textarea',
@@ -47,8 +47,8 @@ class CustomFieldsTableSeeder extends Seeder
                 'created_at' => '2019-09-06 21:43:58',
                 'updated_at' => '2019-09-06 21:43:58',
             ),
-            2 => 
-            array (
+            2 =>
+            array(
                 'id' => 6,
                 'name' => 'address',
                 'type' => 'text',
@@ -62,8 +62,7 @@ class CustomFieldsTableSeeder extends Seeder
                 'created_at' => '2019-09-06 21:49:22',
                 'updated_at' => '2019-09-06 21:49:22',
             ),
-            3 =>
-            array (
+            array(
                 'id' => 7,
                 'name' => 'verifiedPhone',
                 'type' => 'text',
@@ -76,9 +75,7 @@ class CustomFieldsTableSeeder extends Seeder
                 'custom_field_model' => 'App\\Models\\User',
                 'created_at' => '2021-03-20 10:49:22',
                 'updated_at' => '2021-03-20 10:49:22',
-            ),
+            ) 
         ));
-        
-        
     }
-}
+} 
